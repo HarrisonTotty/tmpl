@@ -1,0 +1,6 @@
+# Included Template Configuration File
+# ------------------------------------
+# This file is included in the main example template configuration file.
+
+# An example key-value pair to merge into "tmpl.yaml".
+foo: "some value"

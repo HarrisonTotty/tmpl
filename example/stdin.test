@@ -1,0 +1,6 @@
+This file tests "tmpl"'s ability to have Jinja templates piped to its stdin.
+
+Hostname: {{ hostname }}
+
+Path Join Example:
+{{ path_join('/foo', 'bar', 'baz.txt') }}
