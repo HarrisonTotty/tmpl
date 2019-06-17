@@ -181,7 +181,7 @@ def _parse_arguments():
         '-l',
         '--log-level',
         choices = ['info', 'debug'],
-        default = os.getenv('TMPL_LOG_LVL', 'info'),
+        default = os.getenv('TMPL_LOG_LEVEL', 'info'),
         dest = 'log_level',
         help = 'Specifies the log level of the script, being either "info" or "debug". Defaults to "info". This option is ignored if "--log-file" is not specified.',
         metavar = 'LVL'
