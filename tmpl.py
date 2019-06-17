@@ -784,7 +784,7 @@ def parse_config():
                 sys.exit(EC)
             logging.debug('Parsing template configuration file include "' + i + '"...')
             try:
-                iconf = yaml.load(icontents)
+                iconf = yaml.safe_load(icontents)
             except Exception as e:
                 emessage(_subsubstep('Unable to parse template configuration file include "' + i + '" - ' + str(e) + '.', C_RED))
                 logging.critical('Unable to parse template configuration file include "' + i + '" - ' + str(e) + '.')
