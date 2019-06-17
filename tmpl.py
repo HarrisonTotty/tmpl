@@ -751,7 +751,7 @@ def parse_config():
     logging.debug('Parsing template configuration file...')
     try:
         global conf
-        conf = yaml.load(conf_raw)
+        conf = yaml.safe_load(conf_raw)
     except Exception as e:
         emessage(_subsubstep('Unable to parse template configuration file - ' + str(e) + '.', C_RED))
         logging.critical('Unable to parse template configuration file - ' + str(e) + '.')
