@@ -920,6 +920,10 @@ def translate_templates():
             logging.debug('Loading template...')
             try:
                 template = jinja_env.get_template(m['rel_src'])
+            except jinja2.TemplateSyntaxError as e:
+                emessage(_subsubstep('Unable to load template - syntax error on line ' + str(e.lineno) + ' - ' + str(e), C_RED))
+                logging.critical('Unable to load template - syntax error on line ' + str(e.lineno) + ' - ' + str(e))
+                sys.exit(EC)
             except Exception as e:
                 emessage(_subsubstep('Unable to load template - ' + str(e) + '.', C_RED))
                 logging.critical('Unable to load template - ' + str(e) + '.')
