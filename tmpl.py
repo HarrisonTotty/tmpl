@@ -10,6 +10,8 @@ A generic templating utility.
 # Standard Library
 import argparse
 import glob
+import importlib.util
+import inspect
 import logging
 import os
 import re
@@ -866,8 +868,34 @@ def setup_jinja():
         message(_substep('Initializing libraries...'))
         logging.debug('Initializing libraries...')
         for l in conf['lib']:
-            libpath = _get_path(l)
+            libpath = os.path.join(_get_path(l))
             logging.debug('Loading library "' + libpath + '"...')
+            try:
+                spec = importlib.util.spec_from_file_location(os.path.basename(libpath).split('.', 1)[0], libpath)
+            except Exception as e:
+                emessage(_subsubstep('Unable to obtain spec for library file "' + libpath + '" - ' + str(e) + '.', C_RED))
+                logging.critical('Unable to obtain spec library file "' + libpath + '" - ' + str(e) + '.')
+                sys.exit(EC)
+            try:
+                mod = importlib.util.module_from_spec(spec)
+            except Exception as e:
+                emessage(_subsubstep('Unable to load module from library file "' + libpath + '" - ' + str(e) + '.', C_RED))
+                logging.critical('Unable to load module from library file "' + libpath + '" - ' + str(e) + '.')
+                sys.exit(EC)
+            try:
+                spec.loader.exec_module(mod)
+            except Exception as e:
+                emessage(_subsubstep('Unable to execute module from library file "' + libpath + '" - ' + str(e) + '.', C_RED))
+                logging.critical('Unable to execute module from library file "' + libpath + '" - ' + str(e) + '.')
+                sys.exit(EC)
+            mod_functions = inspect.getmembers(mod, inspect.isfunction)
+            if not mod_functions:
+                emessage(_subsubstep('Warning: Library file "' + libpath + '" contains no defined functions.', C_RED))
+                logging.warning('Library file "' + libpath + '" contains no defined functions.')
+            else:
+                logging.debug('MODULE FUNCTIONS : ' + str([i[0] for i in mod_functions]))
+                for f in mod_functions:
+                    jinja_env.globals[f[0]] = f[1]
 
             
 def translate_stdin():
