@@ -2,12 +2,14 @@
 
 `tmpl` is a Python script that serves as a general-purpose templating engine on top of Jinja2 and YAML. It was designed to be extendable, all-encompassing, and not completely garbage.
 
+
 ## System Requirements
 
 * Python 3
 * [Jinja2](http://jinja.pocoo.org/)
 * [PyYAML](https://pyyaml.org/)
 * `rsync`
+
 
 ## Installation
 
@@ -17,6 +19,7 @@ There is currently no installer, but you should be able to get by with something
 $ ln -s /path/to/repo/tmpl.py /usr/local/bin/tmpl
 ```
 
+
 ## Known Bugs and Potential Issues
 
 * `tmpl` doesn't currently support recursive YAML imports. Only the primary configuration file may import additional files.
@@ -24,8 +27,10 @@ $ ln -s /path/to/repo/tmpl.py /usr/local/bin/tmpl
 * Currently only _one_ substitution of the form `*`, `[a,b,c...]`, or `[x-y]` may be used in file paths.
 
 
+
 ----
 # Usage
+
 
 ## Basic Example
 
@@ -42,6 +47,7 @@ In the above example, `example/tmpl.yaml` contains a `files` key, which tells `t
 ```bash
 $ cat example/stdin.test | tmpl example > stdout.test
 ```
+
 
 ## CLI Arguments
 
@@ -85,6 +91,7 @@ The following table expands upon the one above to list the value types, default 
 | `--variable-end-string`     | String                       | `}}`                | `TMPL_VAR_END_STR`              |
 | `--variable-start-string`   | String                       | `{{`                | `TMPL_VAR_START_STR`            |
 | `-w`, `--working-directory` | Directory Path               | `/tmp/tmpl`         | `TMPL_WORKING_DIR`              |
+
 
 ## Exit Codes
 
