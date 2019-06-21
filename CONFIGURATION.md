@@ -70,22 +70,23 @@ As stated above, these files have their definitions _merged_ with the primary te
 
 `tmpl` automatically provides several built-in Jinja functions. The following table provides a breif description for each of these functions:
 
-| Name            | Description                                                                                       |
-|-----------------|---------------------------------------------------------------------------------------------------|
-| `domain_join`   | Joins each argument with a single `.` character.                                                  |
-| `env`           | Fetches the value of a specified environment variable, with an optional default value.            |
-| `file_ext`      | Returns the extension of the specified file path.                                                 |
-| `file_name`     | Returns the name of the specified file path (without the extension).                              |
-| `get`           | Returns the value of the variable with the specified string name.                                 |
-| `get_host`      | Returns the hostname associated with the specified IP address.                                    |
-| `get_ip`        | Returns the IP address associated with the specified hostname.                                    |
-| `get_output`    | Returns the output of the specified system shell command.                                         |
-| `path_basename` | Same as `os.path.basename` in Python.                                                             |
-| `path_dirname`  | Same as `os.path.dirname` in Python.                                                              |
-| `path_join`     | Same as `os.path.join` in Python.                                                                 |
-| `print`         | Prints the specified string to STDOUT during template translation.                                |
-| `raise`         | Raises an exception during template translation with the specified string value.                  |
-| `require`       | Raises an exception during template translation if one of the specified variables is not defined. |
+| Name            | Description                                                                                                   |
+|-----------------|---------------------------------------------------------------------------------------------------------------|
+| `domain_join`   | Joins each argument with a single `.` character.                                                              |
+| `env`           | Fetches the value of a specified environment variable, with an optional default value.                        |
+| `file_ext`      | Returns the extension of the specified file path.                                                             |
+| `file_name`     | Returns the name of the specified file path (without the extension).                                          |
+| `get`           | Returns the value of the variable with the specified string name.                                             |
+| `get_host`      | Returns the hostname associated with the specified IP address.                                                |
+| `get_ip`        | Returns the IP address associated with the specified hostname.                                                |
+| `get_output`    | Returns the output of the specified system shell command.                                                     |
+| `path_basename` | Same as `os.path.basename` in Python.                                                                         |
+| `path_dirname`  | Same as `os.path.dirname` in Python.                                                                          |
+| `path_join`     | Same as `os.path.join` in Python.                                                                             |
+| `print`         | Prints the specified string to STDOUT during template translation.                                            |
+| `raise`         | Raises an exception during template translation with the specified string value.                              |
+| `read_file`     | Returns the contents of the file located at the specified path (relative to the template configuration file). |
+| `require`       | Raises an exception during template translation if one of the specified variables is not defined.             |
 
 In addition to the above functions, `tmpl` also pre-defines the following variables:
 

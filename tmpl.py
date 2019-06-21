@@ -477,6 +477,22 @@ def _tmpl_raise(message):
     raise Exception(message)
 
 
+def _tmpl_read_file(path):
+    '''
+    Returns the contents of the file located at the specified path, relative to
+    the path to the template configuration file.
+    '''
+    actual_path = _get_path(path)
+    if not os.path.isfile(actual_path):
+        raise Exception('Cannot read file "' + actual_path + '" - specified file path does not exist.')
+    try:
+        with open(actual_path, 'r') as f:
+            contents = f.read()
+    except Exception as e:
+        raise Exception('Cannot read file "' + actual_path + '" - ' + str(e))
+    return contents
+
+
 @jinja2.contextfunction
 def _tmpl_require(context, *variables):
     '''
@@ -859,6 +875,7 @@ def setup_jinja():
         jinja_env.globals['path_join']     = os.path.join
         jinja_env.globals['print']         = _tmpl_print
         jinja_env.globals['raise']         = _tmpl_raise
+        jinja_env.globals['read_file']     = _tmpl_read_file
         jinja_env.globals['require']       = _tmpl_require
     except Exception as e:
         emessage(_subsubstep('Unable to initialize templating extensions - ' + str(e) + '.', C_RED))
