@@ -1,6 +1,6 @@
 # Configuration & Templating
 
-`tmpl` is supplied with a _Template Configuration File_ at runtime, either explicitly or implicitly (by providing the script with a _directory_). The template configuration file is a YAML document which contains
+`tmpl` is supplied with a _Template Configuration File_ at runtime, either explicitly or implicitly (by providing the script with a _directory_). The template configuration file is a YAML document which contains:
 
 * Arbitrary variables which may be referenced within template files.
 * Template file mappings (the location of source files to translate, and where to save them).
@@ -94,6 +94,8 @@ In addition to the above functions, `tmpl` also pre-defines the following variab
 | `fqdn`     | The fully-qualified domain name of the machine executing the script.                                   |
 | `hostname` | The hostname of the machine executing the script.                                                      |
 | `this`     | A shortcut to the definition within the `files` specification pertaining to the current template file. |
+
+### Library Extensions
 
 `tmpl` is designed to have its execution environment highly configurable, and thus it is possible to extend the list of functions available to the template translation environment by defining a list of library extensions via the `lib` key in the primary template configuration file. The `lib` key is mapped to a list of file paths relative to the primary template configuration file. As an example, consider the definition below:
 
