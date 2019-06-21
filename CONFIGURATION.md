@@ -90,11 +90,13 @@ As stated above, these files have their definitions _merged_ with the primary te
 
 In addition to the above functions, `tmpl` also pre-defines the following variables:
 
-| Name       | Description                                                                                            |
-|------------|--------------------------------------------------------------------------------------------------------|
-| `fqdn`     | The fully-qualified domain name of the machine executing the script.                                   |
-| `hostname` | The hostname of the machine executing the script.                                                      |
-| `this`     | A shortcut to the definition within the `files` specification pertaining to the current template file. |
+| Name                          | Description                                                                                            |
+|-------------------------------|--------------------------------------------------------------------------------------------------------|
+| `fqdn`                        | The fully-qualified domain name of the machine executing the script.                                   |
+| `hostname`                    | The hostname of the machine executing the script.                                                      |
+| `output_directory`            | The full path to the specified output directory.                                                       |
+| `template_configuration_file` | The full path to the specified template configuration file.                                            |
+| `this`                        | A shortcut to the definition within the `files` specification pertaining to the current template file. |
 
 ### Library Extensions
 

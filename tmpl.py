@@ -858,8 +858,10 @@ def setup_jinja():
     logging.debug('Initializing extensions...')
     try:
         # Provided Variables
-        jinja_env.globals['fqdn']     = fqdn
-        jinja_env.globals['hostname'] = hostname
+        jinja_env.globals['fqdn']                        = fqdn
+        jinja_env.globals['hostname']                    = hostname
+        jinja_env.globals['output_directory']            = os.path.realpath(args.output)
+        jinja_env.globals['template_configuration_file'] = os.path.realpath(args.template_conf)
 
         # Custom Functions
         jinja_env.globals['domain_join']   = _tmpl_domain_join
