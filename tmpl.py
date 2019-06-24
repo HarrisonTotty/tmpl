@@ -460,6 +460,16 @@ def _tmpl_get_output(cmd):
         raise Exception('Unable to get output from command "' + cmd + '" - ' + str(e) + '.')
 
 
+def _tmpl_parse_yaml(yaml_str):
+    '''
+    A Jinja function that parses the specified YAML string.
+    '''
+    try:
+        return yaml.safe_load(yaml_str)
+    except Exception as e:
+        raise Exception('Unable to parse YAML string - ' + str(e))
+
+
 def _tmpl_print(message):
     '''
     A Jinja function that prints and logs the specified message.
@@ -872,6 +882,7 @@ def setup_jinja():
         jinja_env.globals['get_host']      = _tmpl_get_host
         jinja_env.globals['get_ip']        = _tmpl_get_ip
         jinja_env.globals['get_output']    = _tmpl_get_output
+        jinja_env.globals['parse_yaml']    = _tmpl_parse_yaml
         jinja_env.globals['path_basename'] = os.path.basename
         jinja_env.globals['path_dirname']  = os.path.dirname
         jinja_env.globals['path_join']     = os.path.join

@@ -80,6 +80,7 @@ As stated above, these files have their definitions _merged_ with the primary te
 | `get_host`      | Returns the hostname associated with the specified IP address.                                                |
 | `get_ip`        | Returns the IP address associated with the specified hostname.                                                |
 | `get_output`    | Returns the output of the specified system shell command.                                                     |
+| `parse_yaml`    | Parses the specified string as YAML, using `yaml.safe_load()` from PyYAML.                                    |
 | `path_basename` | Same as `os.path.basename` in Python.                                                                         |
 | `path_dirname`  | Same as `os.path.dirname` in Python.                                                                          |
 | `path_join`     | Same as `os.path.join` in Python.                                                                             |
