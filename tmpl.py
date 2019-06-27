@@ -37,7 +37,7 @@ except ImportError as e:
 # ----------- Initialization -----------
 
 HELP_DESCRIPTION = """
-A generic templating utility.
+A highly-configurable general-purpose templating program.
 """
 
 HELP_EPILOG = """
@@ -88,6 +88,28 @@ def _get_path(template_path, base_path=''):
             return os.path.join(base_path, template_path)
         else:    
             return os.path.join(template_dir, template_path)
+
+
+def _merge_yaml_data(data1, data2):
+    '''
+    Returns the recursively-merged version of both YAML data objects.
+    The second object has priority on conflicts.
+    '''
+    if isinstance(data1, str) and isinstance(data2, str):
+        return data2
+    if isinstance(data1, list) and isinstance(data2, list):
+        return_list = data1.copy()
+        return_list.extend(data2.copy())
+        return return_list
+    if isinstance(data1, dict) and isinstance(data2, dict):
+        return_dict = data1.copy()
+        for key, val in data2.items():
+            if key in return_dict:
+                return_dict[key] = _merge_yaml_data(return_dict[key], val)
+            else:
+                return_dict[key] = val
+        return return_dict
+    return data2
 
 
 def _parse_arguments():
@@ -791,20 +813,26 @@ def parse_config():
             emessage(_subsubstep('Unable to parse template configuration file includes - "include" specification is not a list of file paths.', C_RED))
             logging.critical('Unable to parse template configuration file includes - "include" specification is not a list of file paths.')
             sys.exit(EC)
-        for i in conf['include']:
+        flatten = lambda L: [item for sublist in L for item in sublist]
+        try:
+            flat_includes = flatten([_parse_file_paths(_get_path(p)) for p in conf['include']])
+        except Exception as flat_e:
+            emessage(_subsubstep('Unable to parse template configuration file includes - "include" specification parsing error - ' + str(flat_e) + '.', C_RED))
+            logging.critical('Unable to parse template configuration file includes - "include" specification parsing error - ' + str(flat_e) + '.')
+            sys.exit(EC)
+        for i in flat_includes:
             if not isinstance(i, str):
                 emessage(_subsubstep('Unable to parse template configuration file includes - "include" specification is not a list of file paths.', C_RED))
                 logging.critical('Unable to parse template configuration file includes - "include" specification is not a list of file paths.')
                 sys.exit(EC)
-            ip = _get_path(i)
             logging.debug('Validating template configuration file include "' + i + '"...')
-            if not os.path.isfile(ip):
+            if not os.path.isfile(i):
                 emessage(_subsubstep('Unable to validate template configuration file include "' + i + '" - value is not a path to an existing file.', C_RED))
                 logging.critical('Unable to validate template configuration file include "' + i + '" - value is not a path to an existing file.')
                 sys.exit(EC)
             logging.debug('Loading template configuration file include "' + i + '"...')
             try:
-                with open(ip, 'r') as ifile:
+                with open(i, 'r') as ifile:
                     icontents = ifile.read()
             except Exception as e:
                 emessage(_subsubstep('Unable to load template configuration file include "' + i + '" - ' + str(e) + '.', C_RED))
@@ -819,7 +847,7 @@ def parse_config():
                 sys.exit(EC)
             logging.debug('Merging template configuration file include "' + i + '"...')
             try:
-                conf.update(iconf)
+                conf = _merge_yaml_data(conf, iconf)
             except Exception as e:
                 emessage(_subsubstep('Unable to merge template configuration file include "' + i + '" - ' + str(e) + '.', C_RED))
                 logging.critical('Unable to merge template configuration file include "' + i + '" - ' + str(e) + '.')
@@ -897,8 +925,14 @@ def setup_jinja():
     if 'lib' in conf:
         message(_substep('Initializing libraries...'))
         logging.debug('Initializing libraries...')
-        for l in conf['lib']:
-            libpath = os.path.join(_get_path(l))
+        flatten = lambda L: [item for sublist in L for item in sublist]
+        try:
+            flat_lib = flatten([_parse_file_paths(_get_path(p)) for p in conf['lib']])
+        except Exception as e:
+            emessage(_subsubstep('Unable to parse library extension paths - ' + str(e) + '.', C_RED))
+            logging.critical('Unable to parse library extension paths - ' + str(e) + '.')
+            sys.exit(EC)
+        for libpath in flat_lib:
             logging.debug('Loading library "' + libpath + '"...')
             try:
                 spec = importlib.util.spec_from_file_location(os.path.basename(libpath).split('.', 1)[0], libpath)
@@ -1065,12 +1099,8 @@ def validate_config():
         if any([not isinstance(l, str) for l in conf['lib']]):
             emessage(_subsubstep('Invalid template configuration - "lib" specification is not a list of file paths.', C_RED))
             logging.critical('Invalid template configuration - "lib" specification is not a list of file paths.')
-            sys.exit(EC) 
-        if any([not os.path.isfile(_get_path(l)) for l in conf['lib']]):
-            emessage(_subsubstep('Invalid template configuration - one or more library strings do not correspond to an existing file path.', C_RED))
-            logging.critical('Invalid template configuration - one or more library strings do not correspond to an existing file path.')
             sys.exit(EC)
-    
+
     
 def validate_environment():
     '''

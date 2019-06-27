@@ -60,9 +60,9 @@ include:
   - "yaml/projects.yaml"
 ```
 
-These file paths, _like all relative file paths in `tmpl`_, are relative to the _template configuration file_ and _not_ the working directory the script was executed in.
+These file paths, like all most file paths in `tmpl`, are relative to the _template configuration file_ and _not_ the working directory the script was executed in.
 
-As stated above, these files have their definitions _merged_ with the primary template, so if `foo: "bar"` is defined in `primary.yaml` and `foo: "baz"` is defined in `included.yaml`, then templates will see `foo` mapped to `"baz"`. **Note that this is currently a _shallow_ merge**, so if `foo` is mapped to something like `{"name": "Harrison", "age": 26}` in `primary.yaml` but it is mapped to `{"projects": ...}` in `included.yaml`, the "final" value will be a dictionary only containing the `projects` key.
+As stated above, these files have their definitions _merged_ with the primary template, so if `foo: "bar"` is defined in `primary.yaml` and `foo: "baz"` is defined in `included.yaml`, then templates will see `foo` mapped to `"baz"`.
 
 
 ----
@@ -184,7 +184,7 @@ As stated above, any other key-value pairs will have no implicit effect, other t
 
 ### File Path Conventions & Expressions
 
-As alluded to above, file paths for keys like `dst` and `src` in a `files` definition may be specified via a relative path (like `"foo.txt"`) which is relative to the primary template configuration file for the `src` key and relative to the specified output directory for the `dst` key (if the `src` key is not defined, then the source file will be relative to the primary template configuration file as expected), or via an absolute path (like `"/etc/foo.txt"` or `"~/foo.txt"`). In addition to relative vs. absolute paths, each path may be expanded to multiple paths via wildcard and list/range expressions:
+As alluded to above, file paths for keys like `include`, `lib`, or `dst`/`src` in a `files` definition may be specified via a relative path (like `"foo.txt"`) which is relative to the primary template configuration file for the `src` key and relative to the specified output directory for the `dst` key (if the `src` key is not defined, then the source file will be relative to the primary template configuration file as expected), or via an absolute path (like `"/etc/foo.txt"` or `"~/foo.txt"`). In addition to relative vs. absolute paths, each path may be expanded to multiple paths via wildcard and list/range expressions:
 
 * A _wildcard expression_ (or _glob expression_) matches files in the same way that a shell would match them. For example, `"foo*.txt"` would match `["foo1.txt", "foo-bar.txt", ...]`.
 

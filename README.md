@@ -22,10 +22,8 @@ $ ln -s /path/to/repo/tmpl.py /usr/local/bin/tmpl
 
 ## Known Bugs and Potential Issues
 
-* `tmpl` doesn't currently support recursive YAML imports. Only the primary configuration file may import additional files.
-* `tmpl` does a _shallow merge_ to the global scope when importing additional YAML files, so you can't import files that attempt to extend the `files` key.
+* `tmpl` doesn't currently support recursive YAML imports. Only the primary configuration file may import additional files, however you _can_ load configuration files at "runtime" via something like `{% set data = parse_yaml(read_file('foo.yaml')) %}`.
 * Currently only _one_ substitution of the form `*`, `[a,b,c...]`, or `[x-y]` may be used in file paths.
-
 
 
 ----
