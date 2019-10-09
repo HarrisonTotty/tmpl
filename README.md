@@ -53,6 +53,7 @@ The following table describes the various command-line arguments:
 
 | Argument(s)                 | Description                                                                                                                                                                |
 |-----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `-b`, `--base-dir`          | Specifies the base directory from which template files will be loaded (as an alternative to the directory containing the specified template configuration file).           |
 | `--block-end-string`        | Specifies the string marking the end of a Jinja template block.                                                                                                            |
 | `--block-start-string`      | Specifies the string marking the start of a Jinja template block.                                                                                                          |
 | `--comment-end-string`      | Specifies the string marking the end of a Jinja template comment.                                                                                                          |
@@ -76,6 +77,7 @@ The following table expands upon the one above to list the value types, default 
 
 | Argument(s)                 | Value Type / Possible Values | Default Value       | Associated Environment Variable |
 |-----------------------------|------------------------------|---------------------|---------------------------------|
+| `-b`, `--base-dir`          | Directory Path               | (See Description)   | `TMPL_BASE_DIR`                 |
 | `--block-end-string`        | String                       | `%}`                | `TMPL_BLOCK_END_STR`            |
 | `--block-start-string`      | String                       | `{%`                | `TMPL_BLOCK_START_STR`          |
 | `--comment-end-string`      | String                       | `#}`                | `TMPL_COMMENT_END_STR`          |

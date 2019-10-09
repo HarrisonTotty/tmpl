@@ -85,9 +85,12 @@ def _get_path(template_path, base_path=''):
         return os.path.expanduser(template_path)
     else:
         if base_path:
-            return os.path.join(base_path, template_path)
-        else:    
-            return os.path.join(template_dir, template_path)
+            if '../' in base_path:
+                return os.path.abspath(os.path.join(base_path, template_path))
+            else:
+                return os.path.normpath(os.path.join(base_path, template_path))
+        else:
+            return os.path.normpath(os.path.join(template_dir, template_path))
 
 
 def _merge_yaml_data(data1, data2):
@@ -131,6 +134,14 @@ def _parse_arguments():
     argparser.add_argument(
         'template_conf',
         help = 'Specifies the path to the template configuration YAML file.',
+    )
+    argparser.add_argument(
+        '-b',
+        '--base-dir',
+        default = os.getenv('TMPL_BASE_DIR', ''),
+        dest = 'base_dir',
+        help = 'Specifies the base directory from which template files will be loaded. Defaults to the directory containing the specified template configuration file.',
+        metavar = 'DIR'
     )
     argparser.add_argument(
         '--block-end-string',
@@ -815,7 +826,7 @@ def parse_config():
             sys.exit(EC)
         flatten = lambda L: [item for sublist in L for item in sublist]
         try:
-            flat_includes = flatten([_parse_file_paths(_get_path(p)) for p in conf['include']])
+            flat_includes = flatten([_parse_file_paths(_get_path(p, os.path.dirname(args.template_conf))) for p in conf['include']])
         except Exception as flat_e:
             emessage(_subsubstep('Unable to parse template configuration file includes - "include" specification parsing error - ' + str(flat_e) + '.', C_RED))
             logging.critical('Unable to parse template configuration file includes - "include" specification parsing error - ' + str(flat_e) + '.')
@@ -927,7 +938,7 @@ def setup_jinja():
         logging.debug('Initializing libraries...')
         flatten = lambda L: [item for sublist in L for item in sublist]
         try:
-            flat_lib = flatten([_parse_file_paths(_get_path(p)) for p in conf['lib']])
+            flat_lib = flatten([_parse_file_paths(_get_path(p, os.path.dirname(args.template_conf))) for p in conf['lib']])
         except Exception as e:
             emessage(_subsubstep('Unable to parse library extension paths - ' + str(e) + '.', C_RED))
             logging.critical('Unable to parse library extension paths - ' + str(e) + '.')
@@ -1115,6 +1126,12 @@ def validate_environment():
         emessage(_subsubstep('Specified rsync executable path does not exist.', C_RED))
         logging.critical('Specified rsync executable path does not exist.')
         sys.exit(EC)
+    message(_substep('Validating template base directory...'))
+    logging.debug('Validating template base directory...')
+    if args.base_dir and not os.path.isdir(args.base_dir):
+        emessage(_subsubstep('Specified template base directory does not exist.', C_RED))
+        logging.critical('Specified template base directory does not exist.')
+        sys.exit(EC)
     message(_substep('Validating template configuration file...'))
     logging.debug('Validating template configuration file...')
     if not os.path.isfile(args.template_conf):
@@ -1151,7 +1168,10 @@ def validate_environment():
             message(_subsubstep('Automatically selected template configuration file "' + args.template_conf + '".', C_BLUE))
             logging.info('Automatically selected template configuration file "' + args.template_conf + '".')
     global template_dir
-    template_dir = os.path.dirname(args.template_conf)
+    if not args.base_dir:
+        template_dir = os.path.dirname(args.template_conf)
+    else:
+        template_dir = args.base_dir
     message(_substep('Validating working directory...'))
     logging.debug('Validating working directory...')
     if os.path.isfile(args.working_directory):
