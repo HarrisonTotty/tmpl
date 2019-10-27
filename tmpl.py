@@ -14,6 +14,7 @@ import importlib.util
 import inspect
 import logging
 import os
+import pathlib
 import re
 import shutil
 import socket
@@ -293,7 +294,18 @@ def _parse_file_paths(path_spec):
     if not '*' in path_spec and not '[' in path_spec and not ']' in path_spec:
         return [path_spec]
     elif '*' in path_spec:
-        return glob.glob(path_spec)
+        try:
+            if not '**' in path_spec:
+                return glob.glob(path_spec)
+            elif path_spec.startswith('/'):
+                base_path = '/'
+                altered_path_spec = path_spec.lstrip('/')
+            else:
+                base_path = '.'
+                altered_path_spec = path_spec
+            return [f.as_posix() for f in pathlib.Path(base_path).glob(altered_path_spec) if f.is_file()]         
+        except Exception as e:
+            raise Exception('path specification globbing encountered an exception - ' + str(e))
     elif '[' in path_spec and ']' in path_spec:
         paths = []
         guts = path_spec.split('[', 1)[1]
