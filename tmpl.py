@@ -260,6 +260,12 @@ def _parse_arguments():
         metavar = 'STR'
     )
     argparser.add_argument(
+        '--stdin',
+        action = 'store_true',
+        dest = 'stdin',
+        help = 'Specifies that the script should read raw Jinja-templated content from STDIN instead of utilizing the "files" key in the specified template configuration file.'
+    )
+    argparser.add_argument(
         '--variable-start-string',
         default = os.getenv('TMPL_VAR_START_STR', '{{'),
         dest = 'variable_start_string',
@@ -519,9 +525,9 @@ def _tmpl_print(message):
     '''
     A Jinja function that prints and logs the specified message.
     '''
-    if sys.stdin.isatty():
+    if not args.stdin:
         print(_subsubstep(str(message), C_BLUE))
-        logging.info(str(message))
+    logging.info(str(message))
     return ''
 
 
@@ -723,7 +729,7 @@ def emessage(instring):
     Prints the specified string to stderr.
     This function will not print anything if STDIN of the script isn't a tty.
     '''
-    if sys.stdin.isatty(): sys.stderr.write(instring + '\n')
+    if not args.stdin: sys.stderr.write(instring + '\n')
 
 
 def get_hostname():
@@ -777,7 +783,7 @@ def main():
     # (5) Set-up the jinja environment
     setup_jinja()
 
-    if sys.stdin.isatty():
+    if not args.stdin:
         # (6) Compute file path mappings
         compute_mapping()
     
@@ -801,7 +807,7 @@ def message(instring):
     Prints the specified string to stdout.
     This function will not print anything if STDIN of the script isn't a tty.
     '''
-    if sys.stdin.isatty(): print(instring)
+    if not args.stdin: print(instring)
 
 
 def parse_config():
@@ -1097,7 +1103,7 @@ def validate_config():
     EC = 4
     message(_substep('Validating template configuration...'))
     logging.debug('Validating template configuration...')
-    if sys.stdin.isatty():
+    if not args.stdin:
         if not 'files' in conf:
             emessage(_subsubstep('Invalid template configuration - "files" specification not found.', C_RED))
             logging.critical('Invalid template configuration - "files" specification not found.')

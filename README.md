@@ -43,7 +43,7 @@ By default, `tmpl` will render templates into the current working directory, so 
 In the above example, `example/tmpl.yaml` contains a `files` key, which tells `tmpl` where to look for template files and how to translate them. `tmpl` also supports rendering raw Jinja templating that has been passed to its standard input, in which it will write the resulting text to standard output. Again with respect to this repository, a simple example might look like:
 
 ```bash
-$ cat example/stdin.test | tmpl example > stdout.test
+$ cat example/stdin.test | tmpl example --stdin > stdout.test
 ```
 
 
@@ -69,6 +69,7 @@ The following table describes the various command-line arguments:
 | `--no-color`                | Disables colored output.                                                                                                                                                   |
 | `-o`, `--output`            | Specifies the output directory of the generated files.                                                                                                                     |
 | `--rsync-executable`        | Specifies a file path to the `rsync` executable utilized in transferring directories.                                                                                      |
+| `--stdin`                   | Specifies that the script should read raw Jinja-templated content from STDIN instead of utilizing the "files" key in the specified template configuration file.            |
 | `--variable-end-string`     | Specifies the string marking the end of a Jinja template variable.                                                                                                         |
 | `--variable-start-string`   | Specifies the string marking the start of a Jinja template variable.                                                                                                       |
 | `-w`, `--working-directory` | Specifies the working directory.                                                                                                                                           |
