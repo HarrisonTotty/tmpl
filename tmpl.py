@@ -232,10 +232,28 @@ def _parse_arguments():
         metavar = 'MODE'
     )
     argparser.add_argument(
+        '--no-chmod',
+        action = 'store_false',
+        dest = 'chmod',
+        help = 'Disables file permissions setting functionality.'
+    )
+    argparser.add_argument(
+        '--no-chown',
+        action = 'store_false',
+        dest = 'chown',
+        help = 'Disables file ownership setting functionality.'
+    )
+    argparser.add_argument(
         '--no-color',
         action = 'store_false',
         dest = 'color_output',
         help = 'Disables color output to stdout/stderr.'
+    )
+    argparser.add_argument(
+        '--no-symlinks',
+        action = 'store_false',
+        dest = 'symlinks',
+        help = 'Disables file symlink functionality.'
     )
     argparser.add_argument(
         '-o',
@@ -1263,7 +1281,7 @@ def write_output():
     message(_substep('Processing symlinks, ownership, and permissions...'))
     logging.debug('Processing symlinks, ownership, and permissions...')
     for m in templates_maps:
-        if m['chmod'] and not args.dry_run:
+        if args.chmod and m['chmod'] and not args.dry_run:
             logging.debug('Processing permissions for file "' + m['full_dst'] + '"...')
             try:
                 (chmod_out, chmod_ec) = _run_process(
@@ -1283,7 +1301,7 @@ def write_output():
             else:
                 for l in chmod_out:
                     logging.debug('CHMOD OUTPUT: ' + l)
-        if m['chown'] and not args.dry_run:
+        if args.chown and m['chown'] and not args.dry_run:
             logging.debug('Processing ownership for file "' + m['full_dst'] + '"...')
             try:
                 (chown_out, chown_ec) = _run_process(
@@ -1303,7 +1321,7 @@ def write_output():
             else:
                 for l in chown_out:
                     logging.debug('CHOWN OUTPUT: ' + l)
-        if m['full_lnk'] and not args.dry_run:
+        if args.symlinks and m['full_lnk'] and not args.dry_run:
             logging.debug('Processing symlink for file "' + m['full_dst'] + '"...')
             if os.path.islink(m['full_lnk']):
                 logging.debug('Removing old symlink...')

@@ -66,7 +66,10 @@ The following table describes the various command-line arguments:
 | `-f`, `--log-file`          | Specifies a log file to write to in addition to stdout/stderr.                                                                                                             |
 | `-l`, `--log-level`         | Specifies the log level of the script. This option is ignored if `--log-file` is not specified.                                                                            |
 | `-m`, `--log-mode`          | Specifies whether to `append` or `overwrite` the specified log file. This option is ignored if `--log-file` is not specified.                                              |
+| `--no-chmod`                | Disable file permissions setting functionality.                                                                                                                            |
+| `--no-chown`                | Disable file ownership setting functionality.                                                                                                                              |
 | `--no-color`                | Disables colored output.                                                                                                                                                   |
+| `--no-symlinks`             | Disables file symlink functionality.                                                                                                                                       |
 | `-o`, `--output`            | Specifies the output directory of the generated files.                                                                                                                     |
 | `--rsync-executable`        | Specifies a file path to the `rsync` executable utilized in transferring directories.                                                                                      |
 | `--stdin`                   | Specifies that the script should read raw Jinja-templated content from STDIN instead of utilizing the "files" key in the specified template configuration file.            |
