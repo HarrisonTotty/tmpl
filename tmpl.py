@@ -141,35 +141,35 @@ def _parse_arguments():
         '--base-dir',
         default = os.getenv('TMPL_BASE_DIR', ''),
         dest = 'base_dir',
-        help = 'Specifies the base directory from which template files will be loaded. Defaults to the directory containing the specified template configuration file.',
+        help = '[env: TMPL_BASE_DIR] Specifies the base directory from which template files will be loaded. Defaults to the directory containing the specified template configuration file.',
         metavar = 'DIR'
     )
     argparser.add_argument(
         '--block-end-string',
         default = os.getenv('TMPL_BLOCK_END_STR', '%}'),
         dest = 'block_end_string',
-        help = 'Specifies the string marking the end of a Jinja template block. Defaults to "%%}".',
+        help = '[env: TMPL_BLOCK_END_STR] Specifies the string marking the end of a Jinja template block. Defaults to "%%}".',
         metavar = 'STR'
     )
     argparser.add_argument(
         '--block-start-string',
         default = os.getenv('TMPL_BLOCK_START_STR', '{%'),
         dest = 'block_start_string',
-        help = 'Specifies the string marking the start of a Jinja template block. Defaults to "{%%".',
+        help = '[env: TMPL_BLOCK_START_STR] Specifies the string marking the start of a Jinja template block. Defaults to "{%%".',
         metavar = 'STR'
     )
     argparser.add_argument(
         '--comment-end-string',
         default = os.getenv('TMPL_COMMENT_END_STR', '#}'),
         dest = 'comment_end_string',
-        help = 'Specifies the string marking the end of a Jinja template comment. Defaults to "#}".',
+        help = '[env: TMPL_COMMENT_END_STR] Specifies the string marking the end of a Jinja template comment. Defaults to "#}".',
         metavar = 'STR'
     )
     argparser.add_argument(
         '--comment-start-string',
         default = os.getenv('TMPL_COMMENT_START_STR', '{#'),
         dest = 'comment_start_string',
-        help = 'Specifies the string marking the start of a Jinja template comment. Defaults to "{#".',
+        help = '[env: TMPL_COMMENT_START_STR] Specifies the string marking the start of a Jinja template comment. Defaults to "{#".',
         metavar = 'STR'
     )
     argparser.add_argument(
@@ -195,7 +195,7 @@ def _parse_arguments():
         '--exclude',
         default = os.getenv('TMPL_EXCLUDE', '').split(' '),
         dest = 'exclude',
-        help = 'Specifies an additional list of files or directories relative to the specified output directory that should be preserved on write (if "--delete" is supplied).',
+        help = '[env: TMPL_EXCLUDE] Specifies an additional list of files or directories relative to the specified output directory that should be preserved on write (if "--delete" is supplied).',
         metavar = 'PATH',
         nargs = '+'
     )
@@ -210,7 +210,7 @@ def _parse_arguments():
         '--log-file',
         default = os.getenv('TMPL_LOG_FILE', ''),
         dest = 'log_file',
-        help = 'Specifies a log file to write to in addition to stdout/stderr.',
+        help = '[env: TMPL_LOG_FILE] Specifies a log file to write to in addition to stdout/stderr.',
         metavar = 'FILE'
     )
     argparser.add_argument(
@@ -219,7 +219,7 @@ def _parse_arguments():
         choices = ['info', 'debug'],
         default = os.getenv('TMPL_LOG_LEVEL', 'info'),
         dest = 'log_level',
-        help = 'Specifies the log level of the script, being either "info" or "debug". Defaults to "info". This option is ignored if "--log-file" is not specified.',
+        help = '[env: TMPLE_LOG_LEVEL] Specifies the log level of the script, being either "info" or "debug". Defaults to "info". This option is ignored if "--log-file" is not specified.',
         metavar = 'LVL'
     )
     argparser.add_argument(
@@ -228,7 +228,7 @@ def _parse_arguments():
         choices = ['append', 'overwrite'],
         default = os.getenv('TMPL_LOG_MODE', 'append'),
         dest = 'log_mode',
-        help = 'Specifies whether to "append" or "overwrite" the specified log file. Defaults to "append". This option is ignored if "--log-file" is not specified.',
+        help = '[env: TMPL_LOG_MODE] Specifies whether to "append" or "overwrite" the specified log file. Defaults to "append". This option is ignored if "--log-file" is not specified.',
         metavar = 'MODE'
     )
     argparser.add_argument(
@@ -242,22 +242,15 @@ def _parse_arguments():
         '--output',
         default = os.path.expanduser(os.getenv('TMPL_OUTPUT', os.getcwd())),
         dest = 'output',
-        help = 'Specifies the output directory of the generated files. Defaults to the current working directory.',
+        help = '[env: TMPL_OUTPUT] Specifies the output directory of the generated files. Defaults to the current working directory.',
         metavar = 'DIR'
     )
     argparser.add_argument(
         '--rsync-executable',
         default = os.getenv('TMPL_RSYNC_PATH', '/usr/bin/rsync'),
         dest = 'rsync_executable',
-        help = 'Specifies a file path to the rsync executable utilized for transferring directories. Defaults to "/usr/bin/rsync".',
+        help = '[env: TMPL_RSYNC_PATH] Specifies a file path to the rsync executable utilized for transferring directories. Defaults to "/usr/bin/rsync".',
         metavar = 'FILE'
-    )
-    argparser.add_argument(
-        '--variable-end-string',
-        default = os.getenv('TMPL_VAR_END_STR', '}}'),
-        dest = 'variable_end_string',
-        help = 'Specifies the string marking the end of a Jinja template variable. Defaults to "}}".',
-        metavar = 'STR'
     )
     argparser.add_argument(
         '--stdin',
@@ -266,10 +259,17 @@ def _parse_arguments():
         help = 'Specifies that the script should read raw Jinja-templated content from STDIN instead of utilizing the "files" key in the specified template configuration file.'
     )
     argparser.add_argument(
+        '--variable-end-string',
+        default = os.getenv('TMPL_VAR_END_STR', '}}'),
+        dest = 'variable_end_string',
+        help = '[env: TMPL_VAR_END_STR] Specifies the string marking the end of a Jinja template variable. Defaults to "}}".',
+        metavar = 'STR'
+    )
+    argparser.add_argument(
         '--variable-start-string',
         default = os.getenv('TMPL_VAR_START_STR', '{{'),
         dest = 'variable_start_string',
-        help = 'Specifies the string marking the start of a Jinja template variable. Defaults to "{{".',
+        help = '[env: TMPL_VAR_START_STR] Specifies the string marking the start of a Jinja template variable. Defaults to "{{".',
         metavar = 'STR'
     )
     argparser.add_argument(
@@ -277,7 +277,7 @@ def _parse_arguments():
         '--working-directory',
         default = os.getenv('TMPL_WORKING_DIR', '/tmp/tmpl'),
         dest = 'working_directory',
-        help = 'Specifies the working directory. Defaults to "/tmp/tmpl".',
+        help = '[env: TMPL_WORKING_DIR] Specifies the working directory. Defaults to "/tmp/tmpl".',
         metavar = 'DIR'
     )
     global args
