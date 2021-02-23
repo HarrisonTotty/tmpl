@@ -1317,6 +1317,16 @@ def write_output():
                     emessage(_subsubstep('Unable to process symlink for file "' + m['full_dst'] + '" - link destination is an existing file or directory.', C_RED))
                     logging.critical('Unable to process symlink for file "' + m['full_dst'] + '" - link destination is an existing file or directory.')
                     sys.exit(EC)
+            full_lnk_dir = os.path.dirname(m['full_lnk'])
+            if full_lnk_dir and not os.path.isdir(full_lnk_dir):
+                logging.debug('Creating symlink parent directory "' + full_lnk_dir + '"...')
+                try:
+                    os.makedirs(full_lnk_dir)
+                except Exception as e:
+                    m = 'Unable to create symlink parent directory "' + full_lnk_dir + '" - ' + str(e) + '.'
+                    emessage(_subsubstep(m, C_RED))
+                    logging.critical(m)
+                    sys.exit(EC)
             try:
                 os.symlink(m['full_dst'], m['full_lnk'])
             except Exception as e:
