@@ -1363,7 +1363,7 @@ if __name__ == '__main__':
     try:
         main()
     except (KeyboardInterrupt, EOFError) as ki:
-        sys.stderr.write('Recieved keyboard interrupt!\n')
+        sys.stderr.write('Received keyboard interrupt!\n')
         sys.exit(100)
 
 # --------------------------------------
