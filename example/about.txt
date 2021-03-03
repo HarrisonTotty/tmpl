@@ -1,0 +1,5 @@
+{% do require('first_name', 'last_name') %}
+
+Hello!
+
+My name is {{ first_name }} {{ last_name }}!
