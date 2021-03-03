@@ -1,26 +1,28 @@
-# `tmpl` - The General-Purpose Templating Engine
+# Introduction
 
-`tmpl` is a general-purpose templating engine built on Python, Jinja2, and YAML.
-It's designed to be easy to use, extendable, and not completely garbage.
+`tmpl` is a Python script that serves as a general-purpose templating engine on top of Jinja2 and YAML. It was designed to be extendable, all-encompassing, and not completely garbage.
 
-### System Requirements
 
-* Python 3.6+ and `pip3`
-* [Poetry](https://python-poetry.org/)
+## System Requirements
 
-### Installation
+* Python 3
+* [Jinja2](http://jinja.pocoo.org/)
+* [PyYAML](https://pyyaml.org/)
+* `rsync`
 
-To install `tmpl`, simply run:
+
+## Installation
+
+There is currently no installer, but you should be able to get by with something like:
 
 ```bash
-$ poetry build && pip3 install dist/*.whl
+$ ln -s /path/to/repo/tmpl.py /usr/local/bin/tmpl
 ```
 
-from the root of the repository. Note that this will install the `tmpl` binary
-into `$HOME/.local/bin`, so ensure that you have that directory in your `PATH`.
 
-### Known Bugs and Potential Issues
+## Known Bugs and Potential Issues
 
+* `tmpl` doesn't currently support recursive YAML imports. Only the primary configuration file may import additional files, however you _can_ load configuration files at "runtime" via something like `{% set data = parse_yaml(read_file('foo.yaml')) %}`.
 * Currently only _one_ substitution of the form `*`, `[a,b,c...]`, or `[x-y]` may be used in file paths.
 
 
@@ -99,17 +101,15 @@ The following table expands upon the one above to list the value types, default 
 
 `tmpl` may produce one of the following exit codes:
 
-| Exit Code | Description                                                                                |
-|-----------|--------------------------------------------------------------------------------------------|
-| `0`       | Script exited successfully, although perhaps with warnings.                                |
-| `1`       | Script encountered a general error prior to performing its main task.                      |
-| `2`       | Indicates an issue during the parsing of command-line arguments or environment validation. |
-| `3`       | Indicates an issue reading/parsing the specified template configuration file.              |
-| `4`       | Indicates an invalid template configuration file.                                          |
-| `5`       | Indicates an issue instantiating the Jinja templating engine.                              |
-| `6`       | Script was unable to import any defined library extensions.                                |
-| `7`       | Script was unable to determine or approve the template file path mapping.                  |
-| `8`       | Script was unable to translate the templates into their final form.                        |
-| `9`       | Script failed to transfer the generated files to the specified output directory.           |
-| `10`      | Script failed to set file ownership or permissions, or create defined symlinks.            |
-| `11`      | Script failed to handle a Jinja template string passed to its standard input.              |
+| Exit Code | Description                                                                                            |
+|-----------|--------------------------------------------------------------------------------------------------------|
+| `0`       | Script exited successfully, although perhaps with warnings.                                            |
+| `1`       | Script encountered a general error prior to performing its main task.                                  |
+| `2`       | Indicates an issue during the parsing of command-line arguments or environment validation.             |
+| `3`       | Indicates an issue reading/parsing the specified template configuration file.                          |
+| `4`       | Indicates an invalid template configuration file.                                                      |
+| `5`       | Indicates an issue instantiating the Jinja templating engine.                                          |
+| `6`       | Script was unable to determine or approve the template file path mapping.                              |
+| `7`       | Script was unable to translate the templates into their final form.                                    |
+| `8`       | Script failed to transfer the generated files to the specified output directory, set permissions, etc. |
+| `9`       | Script failed to handle a Jinja template string passed to its standard input.                          |
