@@ -106,7 +106,7 @@ def t_path_basename(path: str) -> str:
     Wrapper around `os.path.basename`.
     '''
     try:
-        os.path.basename(path)
+        return os.path.basename(path)
     except Exception as e:
         raise Exception(f'path_basename() : {e}')
 
@@ -116,7 +116,7 @@ def t_path_dirname(path: str) -> str:
     Wrapper around `os.path.dirname`.
     '''
     try:
-        os.path.dirname(path)
+        return os.path.dirname(path)
     except Exception as e:
         raise Exception(f'path_dirname() : {e}')
 
@@ -126,7 +126,7 @@ def t_path_join(*paths) -> str:
     Wrapper around `os.path.join`.
     '''
     try:
-        os.path.join(*paths)
+        return os.path.join(*paths)
     except Exception as e:
         raise Exception(f'path_join() : {e}')
 
