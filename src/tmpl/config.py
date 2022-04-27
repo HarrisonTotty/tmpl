@@ -10,7 +10,7 @@ import yaml
 from . import utils
 
 
-def compute_mapping(conf, output_dir: str, working_dir: str) -> list[dict]:
+def compute_mapping(conf: dict, output_dir: str, working_dir: str) -> list[dict]:
     '''
     Computes the file mappings and symlinks between template and output files.
 

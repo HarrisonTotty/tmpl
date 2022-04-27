@@ -7,6 +7,7 @@ import pathlib
 import re
 import socket
 import subprocess
+from typing import Any
 
 LIST_REGEX = re.compile(
     r'^[/\w\.\-\ ]*(?P<expr>\[(?P<inner>[/\w\.\-\ ,]+)\])[/\w\.\-\ ]*$'
@@ -17,7 +18,7 @@ RANGE_REGEX = re.compile(
 TEMPLATE_DIR = ''
 
 
-def get_hostname() -> tuple:
+def get_hostname() -> tuple[str, str]:
     '''
     Obtains the hostname and FQDN of the executing machine.
     '''
@@ -45,7 +46,7 @@ def get_path(template_path: str, base_path: str = '') -> str:
             return os.path.normpath(os.path.join(TEMPLATE_DIR, template_path))
 
 
-def merge_yaml_data(data1, data2):
+def merge_yaml_data(data1: Any, data2: Any) -> Any:
     '''
     Returns the recursively-merged version of both YAML data objects.
     The second object has priority on conflicts.
@@ -128,7 +129,7 @@ def parse_file_paths(path_spec: str) -> list[str]:
         raise Exception('path specification does not have balanced brackets')
 
 
-def run_process(cmd, splitlines=True):
+def run_process(cmd: str, splitlines=True) -> tuple:
     '''
     Runs the specified command as a subprocess, returning the output of the
     command (optionally not split by lines) and its exit code.
@@ -147,7 +148,7 @@ def run_process(cmd, splitlines=True):
         return (output, exit_code)
 
 
-def setup_logging(args):
+def setup_logging(args: Any):
     '''
     Sets-up logging.
     '''

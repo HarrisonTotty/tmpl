@@ -6,6 +6,7 @@ Contains functions for interacting with the CLI.
 import argparse
 import os
 import sys
+from typing import Any
 
 
 C_BLUE   = '\033[94m'
@@ -55,7 +56,7 @@ def fsubsubstep(instring: str, color: str = None) -> str:
     return '      ' + fcolor(instring, color)
 
 
-def parse_arguments():
+def parse_arguments() -> Any:
     '''
     Parses the command-line arguments passed to the script, returning the
     result.

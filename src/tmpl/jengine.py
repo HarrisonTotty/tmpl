@@ -8,10 +8,11 @@ import inspect
 import jinja2
 import logging
 import os
+from typing import Any
 
 from . import jfuncs
 
-def import_lib(jinja_engine, path: str):
+def import_lib(jinja_engine: Any, path: str):
     '''
     Imports functions from the specified file path into the specified Jinja
     engine.
@@ -37,7 +38,7 @@ def import_lib(jinja_engine, path: str):
         jinja_engine.globals[f[0]] = f[1]
 
 
-def setup(args, template_dir: str):
+def setup(args: Any, template_dir: str) -> Any:
     '''
     Creates a new Jinja2 engine.
     '''

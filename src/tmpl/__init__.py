@@ -11,6 +11,7 @@ import os
 import shutil
 import sys
 import yaml
+from typing import Any
 
 from . import cli
 from . import config
@@ -113,7 +114,7 @@ def main():
     sys.exit(0)
 
 
-def translate_stdin(jinja_engine, conf):
+def translate_stdin(jinja_engine: Any, conf: dict):
     '''
     Translates a Jinja string passed to STDIN to STDOUT.
     '''
@@ -136,7 +137,7 @@ def translate_stdin(jinja_engine, conf):
     print(rendered)
 
 
-def translate_templates(jinja_engine, conf, mapping):
+def translate_templates(jinja_engine: Any, conf: dict, mapping: list[dict]):
     '''
     Translates the source templates into their final forms within the working
     directory.
@@ -216,7 +217,7 @@ def translate_templates(jinja_engine, conf, mapping):
                     sys.exit(EC)
 
 
-def validate_environment(args):
+def validate_environment(args: Any):
     '''
     Validates that the executing environment is sufficient to proceed. In
     addition, this function also returns the selected template directory.
@@ -267,7 +268,7 @@ def validate_environment(args):
         return args.base_dir
 
 
-def write_output(args, mapping):
+def write_output(args: Any, mapping: list[dict]):
     '''
     Transfers the newly generated files from the working directory to the specified output directory.
     '''
