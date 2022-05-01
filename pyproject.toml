@@ -4,12 +4,12 @@ description = "A highly-configurable general-purpose templating program."
 name = "tmpl"
 readme = "README.md"
 repository = "https://github.com/HarrisonTotty/tmpl"
-version = "2.1.1"
+version = "2.1.2"
 
 [tool.poetry.dependencies]
-python = "^3.9"
-Jinja2 = "^2.11.3"
-PyYAML = "^5.4.1"
+python = "^3.10"
+Jinja2 = "*"
+PyYAML = "*"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
