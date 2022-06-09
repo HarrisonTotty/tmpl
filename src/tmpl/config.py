@@ -89,7 +89,7 @@ def compute_mapping(conf: dict, output_dir: str, working_dir: str) -> list[dict]
             spec_rel_srcs = [os.path.relpath(p, utils.TEMPLATE_DIR) for p in spec_full_srcs]
             for p in spec_full_srcs:
                 if not os.path.exists(p):
-                    raise Exception(f'unable to compute template source path mapping for "{spec_dst}" - ""')
+                    raise Exception(f'unable to compute template source path mapping for "{spec_dst}" - source path "{p}" does not exist')
             spec_rel_dsts = spec_rel_srcs
             spec_full_dsts = [os.path.join(output_dir, p) for p in spec_rel_dsts]
             spec_full_wrks = [os.path.join(working_dir, p) for p in spec_rel_dsts]

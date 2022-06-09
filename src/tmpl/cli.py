@@ -6,7 +6,7 @@ Contains functions for interacting with the CLI.
 import argparse
 import os
 import sys
-from typing import Any
+from typing import Any, Optional
 
 
 C_BLUE   = '\033[94m'
@@ -25,7 +25,7 @@ HELP_EPILOG = """
 SUPPRESS_OUTPUT = False
 
 
-def fcolor(instring: str, color: str = C_BLUE) -> str:
+def fcolor(instring: str, color: Optional[str] = C_BLUE) -> str:
     '''
     Colorizes the specified string.
     '''
@@ -35,21 +35,21 @@ def fcolor(instring: str, color: str = C_BLUE) -> str:
         return instring
 
 
-def fstep(instring: str, color: str = C_BLUE) -> str:
+def fstep(instring: str, color: Optional[str] = C_BLUE) -> str:
     '''
     Formats the specified string as a "step".
     '''
     return fcolor('::', color) + ' ' + fcolor(instring, C_BOLD)
 
 
-def fsubstep(instring: str, color: str = C_BLUE) -> str:
+def fsubstep(instring: str, color: Optional[str] = C_BLUE) -> str:
     '''
     Formats the specified string as a "sub-step".
     '''
     return '  ' + fcolor('-->', color) + ' ' + instring
 
 
-def fsubsubstep(instring: str, color: str = None) -> str:
+def fsubsubstep(instring: str, color: Optional[str] = None) -> str:
     '''
     Formats the specified string as a "sub-sub-step".
     '''

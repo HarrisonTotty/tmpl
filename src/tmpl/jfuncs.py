@@ -50,7 +50,7 @@ def t_file_name(path: str) -> str:
         return basename.split('.', 1)[0]
 
 
-@jinja2.contextfunction
+@jinja2.pass_context
 def t_get(context, variable: str):
     '''
     A Jinja function that returns the value of the specified variable string name.
@@ -162,7 +162,7 @@ def t_read_file(path: str) -> str:
     return contents
 
 
-@jinja2.contextfunction
+@jinja2.pass_context
 def t_require(context, *variables):
     '''
     A Jinja filter which specifies that the specified variables are required.

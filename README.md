@@ -5,7 +5,7 @@ It's designed to be easy to use, extendable, and not completely garbage.
 
 ### System Requirements
 
-* Python 3.6+ and `pip3`
+* Python 3.9+ and `pip3`
 * [Poetry](https://python-poetry.org/)
 
 ### Installation
@@ -13,7 +13,7 @@ It's designed to be easy to use, extendable, and not completely garbage.
 To install `tmpl`, simply run:
 
 ```bash
-$ poetry build && pip3 install dist/*.whl
+$ poetry build && pip install dist/*.whl
 ```
 
 from the root of the repository. Note that this will install the `tmpl` binary
