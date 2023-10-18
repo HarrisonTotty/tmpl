@@ -1,4 +1,4 @@
-FROM python:3.9 as poetry
+FROM python:3.11 as poetry
 
 ENV PIP_DISABLE_PIP_VERSION_CHECK=on \
     PIP_NO_CACHE_DIR=false \

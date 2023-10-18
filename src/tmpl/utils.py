@@ -7,6 +7,7 @@ import pathlib
 import re
 import socket
 import subprocess
+import sys
 from typing import Any
 
 LIST_REGEX = re.compile(
