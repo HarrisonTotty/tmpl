@@ -3,22 +3,6 @@
 `tmpl` is a general-purpose templating engine built on Python, Jinja2, and YAML.
 It's designed to be easy to use, extendable, and not completely garbage.
 
-### System Requirements
-
-* Python 3.9+ and `pip3`
-* [Poetry](https://python-poetry.org/)
-
-### Installation
-
-To install `tmpl`, simply run:
-
-```bash
-$ poetry build && pip install dist/*.whl
-```
-
-from the root of the repository. Note that this will install the `tmpl` binary
-into `$HOME/.local/bin`, so ensure that you have that directory in your `PATH`.
-
 ### Known Bugs and Potential Issues
 
 * Currently only _one_ substitution of the form `*`, `[a,b,c...]`, or `[x-y]` may be used in file paths.

@@ -17,16 +17,16 @@ ignore_errors = false
 module        = "tmpl"
 
 [tool.poetry]
-authors = ["Harrison Totty <harrisongtotty@gmail.com>"]
+authors     = ["Harrison Totty <harrison+gh@totty.dev>"]
 description = "A highly-configurable general-purpose templating program."
-name = "tmpl"
-readme = "README.md"
-repository = "https://github.com/HarrisonTotty/tmpl"
-version = "2.2.1"
+name        = "tmpl"
+readme      = "README.md"
+repository  = "https://github.com/HarrisonTotty/tmpl"
+version     = "2.3.0"
 
 [tool.poetry.dependencies]
 python = "^3.11"
-Jinja2 = "^3.1"
+Jinja2 = "*"
 PyYAML = "*"
 
 [tool.poetry.dev-dependencies]
