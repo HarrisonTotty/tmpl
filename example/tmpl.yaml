@@ -1,8 +1,0 @@
-# Example Template Configuration File
-# -----------------------------------
-
-files:
-  - dst: 'about.txt'
-
-first_name: 'Harrison'
-last_name: 'Totty'
